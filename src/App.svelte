@@ -2,31 +2,17 @@
 <main>
   <div class="container">
     <img src={'/img/svelte-logo-horizontal.svg'} alt="svelte logo" class="logo">
-
-    <input type="text" class="todo-input" placeholder="What needs to be done">
-
+    <input type="text" class="todo-input" placeholder="What needs to be done" bind:value={newTodo} on:keydown={addTodo}>
     <div class="todo-list">
-      <div class="todo-item">
-        <div class="todo-item-left">
-            <input type="checkbox">
-            <div class="todo-item-label">Todo Title</div>
+      {#each todos as item}
+        <div class="todo-item">
+          <div class="todo-item-left">
+              <input type="checkbox">
+              <div class="todo-item-label">{item.title}</div>
+          </div>
+          <div class="remove-item">&times;</div>
         </div>
-        <div class="remove-item">&times;</div>
-      </div>
-      <div class="todo-item">
-        <div class="todo-item-left">
-            <input type="checkbox">
-            <div class="todo-item-label">Todo Title</div>
-        </div>
-        <div class="remove-item">&times;</div>
-      </div>
-      <div class="todo-item">
-        <div class="todo-item-left">
-            <input type="checkbox">
-            <div class="todo-item-label">Todo Title</div>
-        </div>
-        <div class="remove-item">&times;</div>
-      </div>
+      {/each}
     </div>
 
     <div class="extra-container">
@@ -42,14 +28,47 @@
       </div>
 
       <div>
-        <button>Clear Completed</button>
+        <button on:click={handleClear}>Clear Completed</button>
       </div>
     </div>
   </div>
 </main>
 
+
 <script>
+  const ENTER_KEY = 13;
+  let newTodo = '';
+  let todos = [
+    { id: 1, compleated: false, title: "Go to store", editing: false},
+    { id: 2, compleated: false, title: "Finish Svelte Screencast", editing: false},
+    { id: 2, compleated: false, title: "Take over world", editing: false},
+  ]
+
+  function handleClear() {
+    newTodo = '';
+  }
+
+  function render(value) {
+    value = value;
+  }
+
+  function addTodo(event) {
+    if(event.which === ENTER_KEY) {
+      todos.push({
+        id: todos[todos.length - 1].id + 1,
+        compleated: false,
+        title: newTodo,
+        editing: false,
+      })
+
+      todos = todos;
+
+      handleClear();
+    }
+  }
+
 </script>
+
 
 <style lang="scss">
   .container {
