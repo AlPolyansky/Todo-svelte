@@ -1,4 +1,3 @@
-
 <main>
   <div class="container">
     <img src={'/img/svelte-logo-horizontal.svg'} alt="svelte logo" class="logo">
@@ -10,7 +9,7 @@
               <input type="checkbox">
               <div class="todo-item-label">{item.title}</div>
           </div>
-          <div class="remove-item">&times;</div>
+          <div class="remove-item" on:click={() => deleteTodo(item.id)}>&times;</div>
         </div>
       {/each}
     </div>
@@ -41,15 +40,15 @@
   let todos = [
     { id: 1, compleated: false, title: "Go to store", editing: false},
     { id: 2, compleated: false, title: "Finish Svelte Screencast", editing: false},
-    { id: 2, compleated: false, title: "Take over world", editing: false},
+    { id: 3, compleated: false, title: "Take over world", editing: false},
   ]
 
   function handleClear() {
     newTodo = '';
   }
 
-  function render(value) {
-    value = value;
+  function deleteTodo(id) {
+    todos = todos.filter(todo => todo.id !== id)
   }
 
   function addTodo(event) {
